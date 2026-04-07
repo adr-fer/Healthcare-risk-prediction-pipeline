@@ -166,6 +166,10 @@ df.filter(F.col("bed_count") <= 0).show()
 
 df.filter(F.col("avg_patients_per_nurse") <= 0).show()
 
+# Save the cleaned Encounters dataset to the S3 CURATED layer in Parquet format
+# for efficient downstream querying and analytics.
 curated_path = "s3://healthcare-risk-prediction-pipeline/CURATED/hc_facilities/" 
 df.write.mode("overwrite").parquet(curated_path)
+
+# Commit the Glue job to finalize execution after all transformations and writes complete.
 job.commit()
